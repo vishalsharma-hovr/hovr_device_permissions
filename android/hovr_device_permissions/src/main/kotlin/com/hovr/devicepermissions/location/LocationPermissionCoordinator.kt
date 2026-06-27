@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.hovr.devicepermissions.AlertPriority
+import com.hovr.devicepermissions.PermissionAccessIssue
+import com.hovr.devicepermissions.PermissionAlertReason
 import com.hovr.devicepermissions.PermissionStatus
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 import com.hovr.devicepermissions.ui.PermissionRationaleDialog
@@ -30,7 +32,7 @@ internal class LocationPermissionCoordinator(
         if (granted) {
             alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
         } else {
-            showDeniedFlow()
+            ensureAccess()
         }
     }
 
@@ -52,21 +54,28 @@ internal class LocationPermissionCoordinator(
     }
 
     fun ensureAccess() {
-        if (!LocationServiceChecker.isLocationEnabled(activity)) {
-            showGpsDisabled()
-            return
-        }
-        when (currentStatus()) {
-            PermissionStatus.GRANTED -> alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
-            PermissionStatus.NOT_DETERMINED -> requestSystemPermission()
-            PermissionStatus.DENIED -> showDeniedFlow()
-            PermissionStatus.DENIED_PERMANENTLY -> showSettingsRequired()
-            else -> showSettingsRequired()
-        }
+        val issue = LocationAccessEvaluator.evaluate(
+            locationServicesEnabled = LocationServiceChecker.isLocationEnabled(activity),
+            permissionStatus = currentStatus(),
+        )
+        handleAccessIssue(issue)
     }
 
     override fun onResume(owner: LifecycleOwner) {
         ensureAccess()
+    }
+
+    private fun handleAccessIssue(issue: PermissionAccessIssue) {
+        when (issue) {
+            PermissionAccessIssue.GRANTED ->
+                alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
+            PermissionAccessIssue.DEVICE_LOCATION_DISABLED ->
+                showDeviceLocationDisabled()
+            PermissionAccessIssue.NOT_DETERMINED,
+            PermissionAccessIssue.APP_LOCATION_DENIED,
+            -> showAppPermissionRequired()
+            PermissionAccessIssue.APP_NOTIFICATION_DENIED -> Unit
+        }
     }
 
     private fun currentStatus(): PermissionStatus {
@@ -103,9 +112,9 @@ internal class LocationPermissionCoordinator(
             rationaleDialog.show(
                 title = "Location required",
                 message = "Hovr needs your location to find nearby rides and improve pickups.",
-            ) {
-                launchPermissionRequest()
-            }
+                onContinue = { launchPermissionRequest() },
+                onDecline = { showAppPermissionRequired() },
+            )
             return
         }
         launchPermissionRequest()
@@ -117,35 +126,44 @@ internal class LocationPermissionCoordinator(
         permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
-    private fun showDeniedFlow() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(
-                activity,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            )
-        ) {
-            requestSystemPermission()
-            return
-        }
-        showSettingsRequired()
-    }
-
-    private fun showGpsDisabled() {
+    private fun showDeviceLocationDisabled() {
         alertPresenter.showRequired(
             priority = AlertPriority.LOCATION,
+            reasonKey = PermissionAlertReason.DEVICE_LOCATION_DISABLED,
             title = "Enable Location Services",
-            message = "Location services are off. Turn them on to find nearby rides.",
-            onRetry = { ensureAccess() },
+            message = "Location is turned off on this device. Enable it in device location settings.",
+            onRetry = { retryAccess() },
             settingsAction = { SettingsIntents.openLocationSourceSettings(activity) },
+            onStillRequired = { ensureAccess() },
         )
     }
 
-    private fun showSettingsRequired() {
+    private fun showAppPermissionRequired() {
         alertPresenter.showRequired(
             priority = AlertPriority.LOCATION,
-            title = "Location Required",
-            message = "Please enable location access to find nearby rides.",
-            onRetry = { ensureAccess() },
+            reasonKey = PermissionAlertReason.APP_LOCATION_DENIED,
+            title = "Location Permission Required",
+            message = "Allow Hovr to access your location in app settings.",
+            onRetry = { retryAccess() },
             settingsAction = { SettingsIntents.openAppSettings(activity) },
+            onStillRequired = { ensureAccess() },
         )
+    }
+
+    private fun retryAccess() {
+        val issue = LocationAccessEvaluator.evaluate(
+            locationServicesEnabled = LocationServiceChecker.isLocationEnabled(activity),
+            permissionStatus = currentStatus(),
+        )
+        when (issue) {
+            PermissionAccessIssue.GRANTED ->
+                alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
+            PermissionAccessIssue.DEVICE_LOCATION_DISABLED ->
+                ensureAccess()
+            PermissionAccessIssue.NOT_DETERMINED,
+            PermissionAccessIssue.APP_LOCATION_DENIED,
+            -> requestSystemPermission()
+            PermissionAccessIssue.APP_NOTIFICATION_DENIED -> Unit
+        }
     }
 }

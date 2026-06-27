@@ -46,7 +46,7 @@ override fun onDestroy() {
 ### Podfile
 
 ```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.0.0'
+pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.1.0'
 ```
 
 For monorepo development, use a path dependency instead:

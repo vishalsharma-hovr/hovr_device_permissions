@@ -39,7 +39,11 @@ final class NotificationPermissionCoordinator {
     func ensureAccess() {
         UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
             DispatchQueue.main.async {
-                self?.handle(settings: settings)
+                self?.handleAccessIssue(
+                    NotificationAccessEvaluator.evaluate(
+                        authorization: settings.authorizationStatus
+                    )
+                )
             }
         }
     }
@@ -48,23 +52,59 @@ final class NotificationPermissionCoordinator {
         ensureAccess()
     }
 
-    private func handle(settings: UNNotificationSettings) {
-        switch settings.authorizationStatus {
-        case .authorized, .provisional, .ephemeral:
+    private func handleAccessIssue(_ issue: PermissionAccessIssue) {
+        switch issue {
+        case .granted:
             alertPresenter.dismissIfPriority(.notification)
             application?.registerForRemoteNotifications()
-        case .notDetermined:
-            requestAuthorization()
-        case .denied:
-            showSettingsRequired()
-        @unknown default:
-            showSettingsRequired()
+        case .notDetermined, .appNotificationDenied:
+            showAppPermissionRequired()
+        case .deviceLocationDisabled,
+             .deviceLocationRestricted,
+             .appLocationDenied:
+            break
+        }
+    }
+
+    private func showAppPermissionRequired() {
+        alertPresenter.showRequired(
+            priority: .notification,
+            reasonKey: PermissionAlertReason.appNotificationDenied,
+            title: "Notifications Permission Required",
+            message: "Allow Hovr to send notifications in app settings.",
+            settingsDestination: .appNotifications,
+            onRetry: { [weak self] in self?.retryAccess() },
+            onStillRequired: { [weak self] in self?.ensureAccess() }
+        )
+    }
+
+    private func retryAccess() {
+        UNUserNotificationCenter.current().getNotificationSettings { [weak self] settings in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                let issue = NotificationAccessEvaluator.evaluate(
+                    authorization: settings.authorizationStatus
+                )
+                switch issue {
+                case .granted:
+                    self.alertPresenter.dismissIfPriority(.notification)
+                    self.application?.registerForRemoteNotifications()
+                case .notDetermined:
+                    self.requestAuthorization()
+                case .appNotificationDenied:
+                    self.ensureAccess()
+                case .deviceLocationDisabled,
+                     .deviceLocationRestricted,
+                     .appLocationDenied:
+                    break
+                }
+            }
         }
     }
 
     private func requestAuthorization() {
         guard !hasRequestedAuthorization else {
-            showSettingsRequired()
+            ensureAccess()
             return
         }
         hasRequestedAuthorization = true
@@ -76,19 +116,9 @@ final class NotificationPermissionCoordinator {
                     self?.alertPresenter.dismissIfPriority(.notification)
                     self?.application?.registerForRemoteNotifications()
                 } else {
-                    self?.showSettingsRequired()
+                    self?.ensureAccess()
                 }
             }
         }
-    }
-
-    private func showSettingsRequired() {
-        alertPresenter.showRequired(
-            priority: .notification,
-            title: "Notifications Required",
-            message: "Please enable notifications to receive ride updates.",
-            onRetry: { [weak self] in self?.ensureAccess() },
-            openSettings: { SettingsNavigator.openNotificationSettings() }
-        )
     }
 }

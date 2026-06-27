@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.hovr.devicepermissions.AlertPriority
+import com.hovr.devicepermissions.PermissionAlertReason
 import com.hovr.devicepermissions.PermissionStatus
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 import com.hovr.devicepermissions.ui.PermissionRationaleDialog
@@ -27,7 +28,7 @@ internal class NotificationPermissionCoordinator(
         if (granted) {
             alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
         } else {
-            showDeniedFlow()
+            ensureAccess()
         }
     }
 
@@ -56,16 +57,17 @@ internal class NotificationPermissionCoordinator(
         }
         if (!NotificationPermissionChecker.requiresRuntimeRequest()) {
             if (status == PermissionStatus.DENIED) {
-                showSettingsRequired()
+                showAppPermissionRequired()
             }
             return
         }
         when (runtimeStatus()) {
             PermissionStatus.GRANTED -> alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
-            PermissionStatus.NOT_DETERMINED -> requestRuntimePermission()
-            PermissionStatus.DENIED -> showDeniedFlow()
-            PermissionStatus.DENIED_PERMANENTLY -> showSettingsRequired()
-            else -> showSettingsRequired()
+            PermissionStatus.NOT_DETERMINED,
+            PermissionStatus.DENIED,
+            PermissionStatus.DENIED_PERMANENTLY,
+            -> showAppPermissionRequired()
+            else -> showAppPermissionRequired()
         }
     }
 
@@ -101,9 +103,9 @@ internal class NotificationPermissionCoordinator(
             rationaleDialog.show(
                 title = "Notifications required",
                 message = "Hovr uses notifications for ride updates and important alerts.",
-            ) {
-                launchPermissionRequest(permission)
-            }
+                onContinue = { launchPermissionRequest(permission) },
+                onDecline = { showAppPermissionRequired() },
+            )
             return
         }
         launchPermissionRequest(permission)
@@ -115,24 +117,35 @@ internal class NotificationPermissionCoordinator(
         permissionLauncher.launch(permission)
     }
 
-    private fun showDeniedFlow() {
-        val permission = NotificationPermissionChecker.permissionName()
-        if (permission != null &&
-            ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
-        ) {
-            requestRuntimePermission()
-            return
-        }
-        showSettingsRequired()
-    }
-
-    private fun showSettingsRequired() {
+    private fun showAppPermissionRequired() {
         alertPresenter.showRequired(
             priority = AlertPriority.NOTIFICATION,
-            title = "Notifications Required",
-            message = "Please enable notifications to receive ride updates.",
-            onRetry = { ensureAccess() },
+            reasonKey = PermissionAlertReason.APP_NOTIFICATION_DENIED,
+            title = "Notifications Permission Required",
+            message = "Allow Hovr to send notifications in app settings.",
+            onRetry = { retryAccess() },
             settingsAction = { SettingsIntents.openNotificationSettings(activity) },
+            onStillRequired = { ensureAccess() },
         )
+    }
+
+    private fun retryAccess() {
+        val status = NotificationPermissionChecker.currentStatus(activity)
+        if (status == PermissionStatus.GRANTED) {
+            alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
+            return
+        }
+        if (!NotificationPermissionChecker.requiresRuntimeRequest()) {
+            ensureAccess()
+            return
+        }
+        when (runtimeStatus()) {
+            PermissionStatus.GRANTED -> alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
+            PermissionStatus.NOT_DETERMINED,
+            PermissionStatus.DENIED,
+            -> requestRuntimePermission()
+            PermissionStatus.DENIED_PERMANENTLY -> ensureAccess()
+            else -> ensureAccess()
+        }
     }
 }

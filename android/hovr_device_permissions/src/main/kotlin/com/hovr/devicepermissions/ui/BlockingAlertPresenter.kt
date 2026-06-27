@@ -10,50 +10,80 @@ import com.hovr.devicepermissions.AlertPriority
 internal class BlockingAlertPresenter(private val activity: FragmentActivity) {
     private var activeDialog: AlertDialog? = null
     private var activePriority: AlertPriority? = null
+    private var activeReasonKey: String? = null
+    private var intentionalDismiss = false
+    private var onUnexpectedDismiss: (() -> Unit)? = null
 
     fun showRequired(
         priority: AlertPriority,
+        reasonKey: String,
         title: String,
         message: String,
         onRetry: () -> Unit,
         settingsAction: () -> Unit,
+        onStillRequired: () -> Unit,
     ) {
+        onUnexpectedDismiss = onStillRequired
+        if (activeDialog?.isShowing == true &&
+            activePriority == priority &&
+            activeReasonKey == reasonKey
+        ) {
+            return
+        }
         if (activeDialog?.isShowing == true && activePriority != null) {
             if (priority.level < activePriority!!.level) {
                 return
             }
-            dismiss()
+            dismissInternal(intentional = true)
         }
         if (activity.isFinishing || activity.isDestroyed) {
             return
         }
         activePriority = priority
+        activeReasonKey = reasonKey
+        intentionalDismiss = false
         activeDialog = AlertDialog.Builder(activity)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton("Retry") { _, _ ->
-                dismiss()
-                onRetry()
-            }
-            .setNegativeButton("Open Settings") { _, _ ->
-                dismiss()
-                settingsAction()
-            }
+            .setPositiveButton("Retry") { _, _ -> onRetry() }
+            .setNegativeButton("Open Settings") { _, _ -> settingsAction() }
             .create()
+            .also { dialog ->
+                dialog.setCanceledOnTouchOutside(false)
+                dialog.setOnDismissListener {
+                    if (intentionalDismiss) {
+                        return@setOnDismissListener
+                    }
+                    if (activeDialog !== dialog) {
+                        return@setOnDismissListener
+                    }
+                    activeDialog = null
+                    onStillRequired()
+                }
+            }
         activeDialog?.show()
     }
 
     fun dismissIfPriority(priority: AlertPriority) {
         if (activePriority == priority) {
-            dismiss()
+            dismissInternal(intentional = true)
         }
     }
 
     fun dismiss() {
+        dismissInternal(intentional = true)
+    }
+
+    private fun dismissInternal(intentional: Boolean) {
+        intentionalDismiss = intentional
+        activeDialog?.setOnDismissListener(null)
         activeDialog?.dismiss()
         activeDialog = null
         activePriority = null
+        activeReasonKey = null
+        onUnexpectedDismiss = null
+        intentionalDismiss = false
     }
 }
 

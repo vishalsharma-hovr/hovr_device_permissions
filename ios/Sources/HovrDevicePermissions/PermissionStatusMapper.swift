@@ -31,4 +31,20 @@ public enum PermissionStatusMapper {
             return .denied
         }
     }
+
+    public static func locationAccessIssue(
+        locationServicesEnabled: Bool,
+        authorization: CLAuthorizationStatus
+    ) -> PermissionAccessIssue {
+        LocationAccessEvaluator.evaluate(
+            locationServicesEnabled: locationServicesEnabled,
+            authorization: authorization
+        )
+    }
+
+    public static func notificationAccessIssue(
+        authorization: UNAuthorizationStatus
+    ) -> PermissionAccessIssue {
+        NotificationAccessEvaluator.evaluate(authorization: authorization)
+    }
 }
