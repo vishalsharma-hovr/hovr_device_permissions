@@ -33,54 +33,91 @@ final class LocationPermissionCoordinator: NSObject {
     }
 
     func ensureAccess() {
-        guard CLLocationManager.locationServicesEnabled() else {
-            showGpsDisabled()
-            return
-        }
-        handleAuthorizationStatus(locationManager.authorizationStatus)
+        let issue = LocationAccessEvaluator.evaluate(
+            locationServicesEnabled: CLLocationManager.locationServicesEnabled(),
+            authorization: locationManager.authorizationStatus
+        )
+        handleAccessIssue(issue)
     }
 
     @objc private func handleForeground() {
         ensureAccess()
     }
 
-    private func handleAuthorizationStatus(_ status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
+    private func handleAccessIssue(_ issue: PermissionAccessIssue) {
+        switch issue {
+        case .granted:
             alertPresenter.dismissIfPriority(.location)
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied, .restricted:
-            showSettingsRequired()
-        @unknown default:
-            showSettingsRequired()
+        case .deviceLocationDisabled:
+            showDeviceLocationDisabled()
+        case .deviceLocationRestricted:
+            showDeviceLocationRestricted()
+        case .appLocationDenied, .notDetermined:
+            showAppPermissionRequired()
+        case .appNotificationDenied:
+            break
         }
     }
 
-    private func showGpsDisabled() {
+    private func showDeviceLocationDisabled() {
         alertPresenter.showRequired(
             priority: .location,
+            reasonKey: PermissionAlertReason.deviceLocationDisabled,
             title: "Enable Location Services",
-            message: "Location services are off. Turn them on to find nearby rides.",
-            onRetry: { [weak self] in self?.ensureAccess() },
-            openSettings: { SettingsNavigator.openAppSettings() }
+            message: "Location is turned off on this device. Go to Settings > Privacy & Security > Location Services and turn Location Services on.",
+            settingsDestination: .deviceLocationInstructions,
+            onRetry: { [weak self] in self?.retryAccess() },
+            onStillRequired: { [weak self] in self?.ensureAccess() }
         )
     }
 
-    private func showSettingsRequired() {
+    private func showDeviceLocationRestricted() {
         alertPresenter.showRequired(
             priority: .location,
-            title: "Location Required",
-            message: "Please enable location access to find nearby rides.",
-            onRetry: { [weak self] in self?.ensureAccess() },
-            openSettings: { SettingsNavigator.openAppSettings() }
+            reasonKey: PermissionAlertReason.deviceLocationRestricted,
+            title: "Location Restricted",
+            message: "Location access is restricted on this device. Check Screen Time or device management settings.",
+            settingsDestination: .deviceRestrictionInstructions,
+            onRetry: { [weak self] in self?.retryAccess() },
+            onStillRequired: { [weak self] in self?.ensureAccess() }
         )
+    }
+
+    private func showAppPermissionRequired() {
+        alertPresenter.showRequired(
+            priority: .location,
+            reasonKey: PermissionAlertReason.appLocationDenied,
+            title: "Location Permission Required",
+            message: "Allow Hovr to access your location in app settings.",
+            settingsDestination: .appLocation,
+            onRetry: { [weak self] in self?.retryAccess() },
+            onStillRequired: { [weak self] in self?.ensureAccess() }
+        )
+    }
+
+    private func retryAccess() {
+        let issue = LocationAccessEvaluator.evaluate(
+            locationServicesEnabled: CLLocationManager.locationServicesEnabled(),
+            authorization: locationManager.authorizationStatus
+        )
+        switch issue {
+        case .granted:
+            alertPresenter.dismissIfPriority(.location)
+        case .deviceLocationDisabled, .deviceLocationRestricted:
+            ensureAccess()
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .appLocationDenied:
+            ensureAccess()
+        case .appNotificationDenied:
+            break
+        }
     }
 }
 
 extension LocationPermissionCoordinator: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        handleAuthorizationStatus(manager.authorizationStatus)
+        ensureAccess()
     }
 
     func locationManager(
@@ -90,6 +127,6 @@ extension LocationPermissionCoordinator: CLLocationManagerDelegate {
         if #available(iOS 14.0, *) {
             return
         }
-        handleAuthorizationStatus(status)
+        ensureAccess()
     }
 }
