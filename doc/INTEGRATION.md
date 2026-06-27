@@ -46,7 +46,7 @@ override fun onDestroy() {
 ### Podfile
 
 ```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.1.0'
+pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.0'
 ```
 
 For monorepo development, use a path dependency instead:
@@ -77,6 +77,27 @@ var runtimeCoordinator: AppRuntimeCoordinator?
 func applicationWillEnterForeground(_ application: UIApplication) {
     runtimeCoordinator?.ensureAll()
 }
+```
+
+### Driver app (network + notifications only)
+
+When the host owns background location (e.g. Hovr Driver), disable the module location coordinator:
+
+```kotlin
+// Android MainActivity.kt
+runtimeCoordinator = AppRuntimeCoordinator(
+    this,
+    RuntimeCoordinatorOptions(monitorLocation = false),
+)
+```
+
+```swift
+// iOS AppDelegate.swift
+runtimeCoordinator = AppRuntimeCoordinator(
+    presenter: controller,
+    application: application,
+    options: RuntimeCoordinatorOptions(monitorLocation: false)
+)
 ```
 
 ## Remove from host
