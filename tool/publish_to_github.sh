@@ -45,7 +45,12 @@ else
   git checkout -B "$RELEASE_BRANCH"
 fi
 
-rsync -a --delete --exclude '.git' "$ROOT/" ./
+rsync -a --delete \
+  --exclude '.git' \
+  --exclude 'android/**/build/' \
+  --exclude 'android/local.properties' \
+  --exclude 'android/.gradle/' \
+  "$ROOT/" ./
 
 git add -A
 if git diff --cached --quiet; then
