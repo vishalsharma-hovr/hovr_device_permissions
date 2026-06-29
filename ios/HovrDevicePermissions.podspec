@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'HovrDevicePermissions'
-  s.version          = '1.1.0'
+  s.version          = '1.2.2'
   s.summary          = 'HOVR native runtime permissions and connectivity monitoring.'
   s.description      = 'Pure-native location, notification, and network coordinators for HOVR rider apps.'
   s.homepage         = 'https://github.com/vishalsharma-hovr/hovr_device_permissions'
