@@ -10,7 +10,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.hovr.devicepermissions.AlertPriority
 import com.hovr.devicepermissions.PermissionAccessIssue
+import com.hovr.devicepermissions.PermissionActionResolver
 import com.hovr.devicepermissions.PermissionAlertReason
+import com.hovr.devicepermissions.PermissionCoordinatorAction
 import com.hovr.devicepermissions.PermissionStatus
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 import com.hovr.devicepermissions.ui.PermissionRationaleDialog
@@ -54,27 +56,31 @@ internal class LocationPermissionCoordinator(
     }
 
     fun ensureAccess() {
+        val permissionStatus = currentStatus()
         val issue = LocationAccessEvaluator.evaluate(
             locationServicesEnabled = LocationServiceChecker.isLocationEnabled(activity),
-            permissionStatus = currentStatus(),
+            permissionStatus = permissionStatus,
         )
-        handleAccessIssue(issue)
+        handleAccessIssue(issue, permissionStatus)
     }
 
     override fun onResume(owner: LifecycleOwner) {
         ensureAccess()
     }
 
-    private fun handleAccessIssue(issue: PermissionAccessIssue) {
-        when (issue) {
-            PermissionAccessIssue.GRANTED ->
+    private fun handleAccessIssue(
+        issue: PermissionAccessIssue,
+        permissionStatus: PermissionStatus,
+    ) {
+        when (PermissionActionResolver.resolveLocationAction(issue, permissionStatus)) {
+            PermissionCoordinatorAction.DISMISS ->
                 alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
-            PermissionAccessIssue.DEVICE_LOCATION_DISABLED ->
+            PermissionCoordinatorAction.SHOW_DEVICE_LOCATION_DISABLED ->
                 showDeviceLocationDisabled()
-            PermissionAccessIssue.NOT_DETERMINED,
-            PermissionAccessIssue.APP_LOCATION_DENIED,
-            -> showAppPermissionRequired()
-            PermissionAccessIssue.APP_NOTIFICATION_DENIED -> Unit
+            PermissionCoordinatorAction.REQUEST_SYSTEM ->
+                requestSystemPermission()
+            PermissionCoordinatorAction.SHOW_REQUIRED ->
+                showAppPermissionRequired()
         }
     }
 
@@ -151,19 +157,20 @@ internal class LocationPermissionCoordinator(
     }
 
     private fun retryAccess() {
+        val permissionStatus = currentStatus()
         val issue = LocationAccessEvaluator.evaluate(
             locationServicesEnabled = LocationServiceChecker.isLocationEnabled(activity),
-            permissionStatus = currentStatus(),
+            permissionStatus = permissionStatus,
         )
-        when (issue) {
-            PermissionAccessIssue.GRANTED ->
+        when (PermissionActionResolver.resolveLocationAction(issue, permissionStatus)) {
+            PermissionCoordinatorAction.DISMISS ->
                 alertPresenter.dismissIfPriority(AlertPriority.LOCATION)
-            PermissionAccessIssue.DEVICE_LOCATION_DISABLED ->
+            PermissionCoordinatorAction.SHOW_DEVICE_LOCATION_DISABLED ->
                 ensureAccess()
-            PermissionAccessIssue.NOT_DETERMINED,
-            PermissionAccessIssue.APP_LOCATION_DENIED,
-            -> requestSystemPermission()
-            PermissionAccessIssue.APP_NOTIFICATION_DENIED -> Unit
+            PermissionCoordinatorAction.REQUEST_SYSTEM ->
+                requestSystemPermission()
+            PermissionCoordinatorAction.SHOW_REQUIRED ->
+                ensureAccess()
         }
     }
 }

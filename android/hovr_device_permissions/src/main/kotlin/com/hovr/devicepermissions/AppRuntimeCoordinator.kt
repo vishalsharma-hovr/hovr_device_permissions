@@ -8,13 +8,26 @@ import com.hovr.devicepermissions.network.NetworkConnectivityCoordinator
 import com.hovr.devicepermissions.notification.NotificationPermissionCoordinator
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 
-class AppRuntimeCoordinator(private val activity: FragmentActivity) {
+class AppRuntimeCoordinator(
+    private val activity: FragmentActivity,
+    private val options: RuntimeCoordinatorOptions = RuntimeCoordinatorOptions(),
+) {
     private val mainHandler = Handler(Looper.getMainLooper())
     private val alertPresenter = BlockingAlertPresenter(activity)
-    private val networkCoordinator = NetworkConnectivityCoordinator(activity)
-    private val locationCoordinator = LocationPermissionCoordinator(activity, alertPresenter)
+    private val networkCoordinator =
+        if (options.monitorNetwork) NetworkConnectivityCoordinator(activity) else null
+    private val locationCoordinator =
+        if (options.monitorLocation) {
+            LocationPermissionCoordinator(activity, alertPresenter)
+        } else {
+            null
+        }
     private val notificationCoordinator =
-        NotificationPermissionCoordinator(activity, alertPresenter)
+        if (options.monitorNotifications) {
+            NotificationPermissionCoordinator(activity, alertPresenter)
+        } else {
+            null
+        }
     private var attached = false
 
     fun attach() {
@@ -22,9 +35,9 @@ class AppRuntimeCoordinator(private val activity: FragmentActivity) {
             return
         }
         attached = true
-        networkCoordinator.attach()
-        locationCoordinator.attach()
-        notificationCoordinator.attach()
+        networkCoordinator?.attach()
+        locationCoordinator?.attach()
+        notificationCoordinator?.attach()
     }
 
     fun detach() {
@@ -33,18 +46,20 @@ class AppRuntimeCoordinator(private val activity: FragmentActivity) {
         }
         attached = false
         mainHandler.removeCallbacksAndMessages(null)
-        notificationCoordinator.detach()
-        locationCoordinator.detach()
-        networkCoordinator.detach()
+        notificationCoordinator?.detach()
+        locationCoordinator?.detach()
+        networkCoordinator?.detach()
         alertPresenter.dismiss()
     }
 
     fun ensureAll() {
-        networkCoordinator.recheck()
-        locationCoordinator.ensureAccess()
-        mainHandler.postDelayed(
-            { notificationCoordinator.ensureAccess() },
-            PermissionLimits.NOTIFICATION_PROMPT_DELAY_MS,
-        )
+        networkCoordinator?.recheck()
+        locationCoordinator?.ensureAccess()
+        if (notificationCoordinator != null) {
+            mainHandler.postDelayed(
+                { notificationCoordinator.ensureAccess() },
+                PermissionLimits.NOTIFICATION_PROMPT_DELAY_MS,
+            )
+        }
     }
 }

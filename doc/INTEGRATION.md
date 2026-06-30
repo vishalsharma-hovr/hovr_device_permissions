@@ -4,15 +4,35 @@
 
 ### settings.gradle
 
+Remove any local `include ':hovr_device_permissions'` project wiring.
+
+### build.gradle (root)
+
 ```gradle
-include ':hovr_device_permissions'
-project(':hovr_device_permissions').projectDir =
-    new File(settingsDir, '../native/hovr_device_permissions/android/hovr_device_permissions')
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+}
 ```
 
 ### app/build.gradle
 
 ```gradle
+implementation 'com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.4'
+```
+
+For monorepo development, use a local Gradle project instead:
+
+```gradle
+// settings.gradle
+include ':hovr_device_permissions'
+project(':hovr_device_permissions').projectDir =
+    new File(settingsDir, '../packages/native/hovr_device_permissions/android/hovr_device_permissions')
+
+// app/build.gradle
 implementation project(':hovr_device_permissions')
 ```
 
@@ -46,7 +66,7 @@ override fun onDestroy() {
 ### Podfile
 
 ```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.1.0'
+pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.4'
 ```
 
 For monorepo development, use a path dependency instead:
@@ -77,6 +97,27 @@ var runtimeCoordinator: AppRuntimeCoordinator?
 func applicationWillEnterForeground(_ application: UIApplication) {
     runtimeCoordinator?.ensureAll()
 }
+```
+
+### Driver app (network + notifications only)
+
+When the host owns background location (e.g. Hovr Driver), disable the module location coordinator:
+
+```kotlin
+// Android MainActivity.kt
+runtimeCoordinator = AppRuntimeCoordinator(
+    this,
+    RuntimeCoordinatorOptions(monitorLocation = false),
+)
+```
+
+```swift
+// iOS AppDelegate.swift
+runtimeCoordinator = AppRuntimeCoordinator(
+    presenter: controller,
+    application: application,
+    options: RuntimeCoordinatorOptions(monitorLocation: false)
+)
 ```
 
 ## Remove from host

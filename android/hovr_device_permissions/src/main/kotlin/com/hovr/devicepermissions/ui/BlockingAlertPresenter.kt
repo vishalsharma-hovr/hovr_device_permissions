@@ -42,7 +42,7 @@ internal class BlockingAlertPresenter(private val activity: FragmentActivity) {
         activePriority = priority
         activeReasonKey = reasonKey
         intentionalDismiss = false
-        activeDialog = AlertDialog.Builder(activity)
+        activeDialog = PermissionAlertDialog.builder(activity)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
@@ -62,7 +62,7 @@ internal class BlockingAlertPresenter(private val activity: FragmentActivity) {
                     onStillRequired()
                 }
             }
-        activeDialog?.show()
+        activeDialog?.let { PermissionAlertDialog.showWithStyledButtons(it) }
     }
 
     fun dismissIfPriority(priority: AlertPriority) {

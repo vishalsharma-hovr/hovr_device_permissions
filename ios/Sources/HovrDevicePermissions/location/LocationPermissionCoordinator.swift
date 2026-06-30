@@ -6,6 +6,7 @@ final class LocationPermissionCoordinator: NSObject {
     private let alertPresenter: BlockingAlertPresenter
     private let locationManager = CLLocationManager()
     private var attached = false
+    private var pendingSystemRequest = false
 
     init(presenter: UIViewController, alertPresenter: BlockingAlertPresenter) {
         self.presenter = presenter
@@ -45,18 +46,24 @@ final class LocationPermissionCoordinator: NSObject {
     }
 
     private func handleAccessIssue(_ issue: PermissionAccessIssue) {
-        switch issue {
-        case .granted:
+        switch PermissionActionResolver.resolveLocationAction(issue: issue) {
+        case .dismiss:
             alertPresenter.dismissIfPriority(.location)
-        case .deviceLocationDisabled:
+        case .showDeviceLocationDisabled:
             showDeviceLocationDisabled()
-        case .deviceLocationRestricted:
+        case .showDeviceLocationRestricted:
             showDeviceLocationRestricted()
-        case .appLocationDenied, .notDetermined:
+        case .requestSystem:
+            requestSystemPermission()
+        case .showRequired:
             showAppPermissionRequired()
-        case .appNotificationDenied:
-            break
         }
+    }
+
+    private func requestSystemPermission() {
+        guard !pendingSystemRequest else { return }
+        pendingSystemRequest = true
+        locationManager.requestWhenInUseAuthorization()
     }
 
     private func showDeviceLocationDisabled() {
@@ -100,23 +107,20 @@ final class LocationPermissionCoordinator: NSObject {
             locationServicesEnabled: CLLocationManager.locationServicesEnabled(),
             authorization: locationManager.authorizationStatus
         )
-        switch issue {
-        case .granted:
+        switch PermissionActionResolver.resolveLocationAction(issue: issue) {
+        case .dismiss:
             alertPresenter.dismissIfPriority(.location)
-        case .deviceLocationDisabled, .deviceLocationRestricted:
+        case .showDeviceLocationDisabled, .showDeviceLocationRestricted, .showRequired:
             ensureAccess()
-        case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .appLocationDenied:
-            ensureAccess()
-        case .appNotificationDenied:
-            break
+        case .requestSystem:
+            requestSystemPermission()
         }
     }
 }
 
 extension LocationPermissionCoordinator: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        pendingSystemRequest = false
         ensureAccess()
     }
 
@@ -127,6 +131,7 @@ extension LocationPermissionCoordinator: CLLocationManagerDelegate {
         if #available(iOS 14.0, *) {
             return
         }
+        pendingSystemRequest = false
         ensureAccess()
     }
 }
