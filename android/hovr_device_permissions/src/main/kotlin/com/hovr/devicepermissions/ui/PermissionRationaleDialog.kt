@@ -13,12 +13,13 @@ internal class PermissionRationaleDialog(private val activity: FragmentActivity)
         if (activity.isFinishing || activity.isDestroyed) {
             return
         }
-        AlertDialog.Builder(activity)
+        val dialog = PermissionAlertDialog.builder(activity)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
             .setPositiveButton("Continue") { _, _ -> onContinue() }
             .setNegativeButton("Not now") { _, _ -> onDecline() }
-            .show()
+            .create()
+        PermissionAlertDialog.showWithStyledButtons(dialog)
     }
 }

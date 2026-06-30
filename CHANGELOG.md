@@ -1,3 +1,17 @@
+## 1.2.3
+
+- Fix white/invisible Retry and Open Settings button text on Android permission dialogs.
+
+## 1.2.2
+
+- JitPack publishing for Android (`com.github.vishalsharma-hovr:hovr_device_permissions`).
+- Root Gradle wrapper and `jitpack.yml` for remote Android consumption.
+
+## 1.2.0
+
+- `RuntimeCoordinatorOptions` to enable/disable location, notification, and network coordinators independently.
+- Driver app integration: use `monitorLocation = false` when the host owns background location flows.
+
 ## 1.1.0
 
 - Device vs app permission classification via `LocationAccessEvaluator` and `NotificationAccessEvaluator`.

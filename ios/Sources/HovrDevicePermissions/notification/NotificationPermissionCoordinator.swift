@@ -53,15 +53,15 @@ final class NotificationPermissionCoordinator {
     }
 
     private func handleAccessIssue(_ issue: PermissionAccessIssue) {
-        switch issue {
-        case .granted:
+        switch PermissionActionResolver.resolveNotificationAction(issue: issue) {
+        case .dismiss:
             alertPresenter.dismissIfPriority(.notification)
             application?.registerForRemoteNotifications()
-        case .notDetermined, .appNotificationDenied:
+        case .requestSystem:
+            requestAuthorization()
+        case .showRequired:
             showAppPermissionRequired()
-        case .deviceLocationDisabled,
-             .deviceLocationRestricted,
-             .appLocationDenied:
+        case .showDeviceLocationDisabled, .showDeviceLocationRestricted:
             break
         }
     }
@@ -85,17 +85,15 @@ final class NotificationPermissionCoordinator {
                 let issue = NotificationAccessEvaluator.evaluate(
                     authorization: settings.authorizationStatus
                 )
-                switch issue {
-                case .granted:
+                switch PermissionActionResolver.resolveNotificationAction(issue: issue) {
+                case .dismiss:
                     self.alertPresenter.dismissIfPriority(.notification)
                     self.application?.registerForRemoteNotifications()
-                case .notDetermined:
+                case .requestSystem:
                     self.requestAuthorization()
-                case .appNotificationDenied:
+                case .showRequired:
                     self.ensureAccess()
-                case .deviceLocationDisabled,
-                     .deviceLocationRestricted,
-                     .appLocationDenied:
+                case .showDeviceLocationDisabled, .showDeviceLocationRestricted:
                     break
                 }
             }
@@ -104,7 +102,6 @@ final class NotificationPermissionCoordinator {
 
     private func requestAuthorization() {
         guard !hasRequestedAuthorization else {
-            ensureAccess()
             return
         }
         hasRequestedAuthorization = true

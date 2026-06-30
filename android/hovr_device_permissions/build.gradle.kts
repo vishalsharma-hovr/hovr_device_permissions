@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -33,6 +34,24 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+        }
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.vishalsharma-hovr"
+                artifactId = "hovr_device_permissions"
+            }
         }
     }
 }

@@ -33,6 +33,18 @@ if ! gh auth status >/dev/null 2>&1; then
   exit 1
 fi
 
+ACTIVE_USER="$(gh api user --jq .login 2>/dev/null || true)"
+if [[ -n "$ACTIVE_USER" && "$ACTIVE_USER" != "$GITHUB_OWNER" ]]; then
+  if gh auth switch -u "$GITHUB_OWNER" >/dev/null 2>&1; then
+    echo "Switched gh active account to $GITHUB_OWNER"
+  else
+    echo "Active gh account is $ACTIVE_USER but publishing to $GITHUB_OWNER."
+    echo "Run: gh auth switch -u $GITHUB_OWNER"
+    exit 1
+  fi
+fi
+gh auth setup-git -h github.com >/dev/null 2>&1 || true
+
 if gh repo view "${GITHUB_OWNER}/${REPO_NAME}" >/dev/null 2>&1; then
   git clone "$REMOTE_URL" "$WORK_DIR/repo"
   cd "$WORK_DIR/repo"
@@ -45,7 +57,14 @@ else
   git checkout -B "$RELEASE_BRANCH"
 fi
 
-rsync -a --delete --exclude '.git' "$ROOT/" ./
+rsync -a --delete \
+  --exclude '.git' \
+  --exclude 'android/**/build/' \
+  --exclude 'android/local.properties' \
+  --exclude 'android/.gradle/' \
+  --exclude '.gradle/' \
+  --exclude 'build/' \
+  "$ROOT/" ./
 
 git add -A
 if git diff --cached --quiet; then
