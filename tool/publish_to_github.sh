@@ -64,6 +64,8 @@ rsync -a --delete \
   --exclude 'android/.gradle/' \
   --exclude '.gradle/' \
   --exclude 'build/' \
+  --exclude '.build/' \
+  --exclude '.swiftpm/' \
   "$ROOT/" ./
 
 git add -A

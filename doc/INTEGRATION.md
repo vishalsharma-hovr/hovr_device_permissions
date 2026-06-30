@@ -21,7 +21,7 @@ allprojects {
 ### app/build.gradle
 
 ```gradle
-implementation 'com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.3'
+implementation 'com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.6'
 ```
 
 For monorepo development, use a local Gradle project instead:
@@ -63,17 +63,55 @@ override fun onDestroy() {
 
 ## iOS
 
-### Podfile
+Remote consumption mirrors Android JitPack: pin a Git tag and let the toolchain fetch sources at build time.
+
+| Host type | Tool | Remote dependency |
+|-----------|------|-------------------|
+| **Flutter** (rider / driver) | CocoaPods | Git tag in `Podfile` |
+| **Native Xcode app** | Swift Package Manager | Git URL + version in `Package.swift` or Xcode |
+
+### Flutter apps — CocoaPods (recommended)
 
 ```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.3'
+pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.6'
 ```
 
 For monorepo development, use a path dependency instead:
 
 ```ruby
-pod 'HovrDevicePermissions', :path => '../native/hovr_device_permissions/ios'
+pod 'HovrDevicePermissions', :path => '../packages/native/hovr_device_permissions'
 ```
+
+Then run `pod install` in `ios/`.
+
+### Native Xcode apps — Swift Package Manager
+
+Add the package in Xcode (**File → Add Package Dependencies**) or in your app `Package.swift`:
+
+```swift
+dependencies: [
+    .package(
+        url: "https://github.com/vishalsharma-hovr/hovr_device_permissions.git",
+        exact: "1.2.6"
+    ),
+],
+targets: [
+    .target(
+        name: "YourApp",
+        dependencies: [
+            .product(name: "HovrDevicePermissions", package: "HovrDevicePermissions"),
+        ]
+    ),
+]
+```
+
+Local SPM development:
+
+```swift
+.package(path: "../packages/native/hovr_device_permissions")
+```
+
+**Note:** Flutter iOS projects should stay on CocoaPods. SPM wiring in the Xcode project is not preserved reliably across `flutter build` / project regeneration.
 
 ### AppDelegateBootstrap.swift
 
