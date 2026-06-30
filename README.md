@@ -1,6 +1,6 @@
 # HOVR Device Permissions
 
-Pure-native Android library and iOS CocoaPod for location permission, notification permission, and network connectivity monitoring.
+Pure-native Android library and iOS module for location permission, notification permission, and network connectivity monitoring.
 
 ## Features
 
@@ -10,36 +10,30 @@ Pure-native Android library and iOS CocoaPod for location permission, notificati
 - Blocking native alerts when permissions are denied or network is offline
 - No Flutter plugin — host wires `AppRuntimeCoordinator` in `MainActivity` / `AppDelegate`
 
-## Local development
+## Host apps (rider / driver) — remote only
 
-### Android
+Committed app config uses **GitHub + JitPack / CocoaPods**, not local paths.
 
-```gradle
-// android/settings.gradle
-include ':hovr_device_permissions'
-project(':hovr_device_permissions').projectDir =
-    new File(settingsDir, '../native/hovr_device_permissions/android/hovr_device_permissions')
+| Platform | Remote coordinate |
+|----------|-------------------|
+| Android | `com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.4` |
+| iOS | CocoaPods Git tag `v1.2.6` or SPM exact `1.2.6` |
 
-// android/app/build.gradle
-implementation project(':hovr_device_permissions')
-```
+See [doc/INTEGRATION.md](doc/INTEGRATION.md).
 
-### iOS
+## Developing this module
 
-```ruby
-# ios/Podfile
-pod 'HovrDevicePermissions', :path => '../native/hovr_device_permissions/ios'
-```
-
-## Git dependency (after publish)
-
-```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.1.0'
-```
+1. Edit source under `packages/native/hovr_device_permissions/` (rider) or clone for driver.
+2. **Temporarily** wire local path in the host app — [doc/LOCAL_DEVELOPMENT.md](doc/LOCAL_DEVELOPMENT.md).
+3. Run unit tests and manual QA on device.
+4. Publish: `./tool/publish_to_github.sh v1.x.x`
+5. Trigger JitPack for the new Android tag.
+6. **Revert** host apps to remote coordinates and bump the version tag.
 
 ## Documentation
 
-- [doc/INTEGRATION.md](doc/INTEGRATION.md)
+- [doc/LOCAL_DEVELOPMENT.md](doc/LOCAL_DEVELOPMENT.md) — test locally, then publish
+- [doc/INTEGRATION.md](doc/INTEGRATION.md) — production wiring
 - [doc/PERMISSION_GUIDELINES.md](doc/PERMISSION_GUIDELINES.md)
 - [doc/CODING_STANDARDS.md](doc/CODING_STANDARDS.md)
 - [doc/ARCHITECTURE.md](doc/ARCHITECTURE.md)

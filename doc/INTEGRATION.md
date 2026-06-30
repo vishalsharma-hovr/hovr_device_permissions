@@ -1,10 +1,24 @@
 # Integration
 
+Host apps (rider, driver) **must use remote dependencies by default**. Local path wiring is for module development only — see [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md).
+
+## Current release
+
+| Platform | Coordinate |
+|----------|------------|
+| Android (JitPack) | `com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.4` |
+| iOS (CocoaPods) | `pod 'HovrDevicePermissions', :git => '…', :tag => 'v1.2.6'` |
+| iOS (SPM) | `.package(url: "…/hovr_device_permissions.git", exact: "1.2.6")` |
+
 ## Android
 
 ### settings.gradle
 
-Remove any local `include ':hovr_device_permissions'` project wiring.
+No local module include on committed branches:
+
+```gradle
+include ":app"
+```
 
 ### build.gradle (root)
 
@@ -21,20 +35,11 @@ allprojects {
 ### app/build.gradle
 
 ```gradle
-implementation 'com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.3'
+implementation 'com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.4'
 ```
 
-For monorepo development, use a local Gradle project instead:
-
-```gradle
-// settings.gradle
-include ':hovr_device_permissions'
-project(':hovr_device_permissions').projectDir =
-    new File(settingsDir, '../packages/native/hovr_device_permissions/android/hovr_device_permissions')
-
-// app/build.gradle
-implementation project(':hovr_device_permissions')
-```
+New tags must be built on JitPack before Gradle can resolve them:  
+https://jitpack.io/#vishalsharma-hovr/hovr_device_permissions
 
 ### MainActivity.kt
 
@@ -63,17 +68,37 @@ override fun onDestroy() {
 
 ## iOS
 
-### Podfile
+| Host type | Tool | Remote dependency |
+|-----------|------|-------------------|
+| **Flutter** (rider / driver) | CocoaPods | Git tag in `Podfile` |
+| **Native Xcode app** | Swift Package Manager | Git URL + version |
+
+### Flutter apps — CocoaPods
 
 ```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.3'
+pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.2.6'
 ```
 
-For monorepo development, use a path dependency instead:
+### Native Xcode apps — Swift Package Manager
 
-```ruby
-pod 'HovrDevicePermissions', :path => '../native/hovr_device_permissions/ios'
+```swift
+dependencies: [
+    .package(
+        url: "https://github.com/vishalsharma-hovr/hovr_device_permissions.git",
+        exact: "1.2.6"
+    ),
+],
+targets: [
+    .target(
+        name: "YourApp",
+        dependencies: [
+            .product(name: "HovrDevicePermissions", package: "hovr_device_permissions"),
+        ]
+    ),
+]
 ```
+
+**Note:** Flutter iOS projects should stay on CocoaPods.
 
 ### AppDelegateBootstrap.swift
 
@@ -101,10 +126,7 @@ func applicationWillEnterForeground(_ application: UIApplication) {
 
 ### Driver app (network + notifications only)
 
-When the host owns background location (e.g. Hovr Driver), disable the module location coordinator:
-
 ```kotlin
-// Android MainActivity.kt
 runtimeCoordinator = AppRuntimeCoordinator(
     this,
     RuntimeCoordinatorOptions(monitorLocation = false),
@@ -112,13 +134,16 @@ runtimeCoordinator = AppRuntimeCoordinator(
 ```
 
 ```swift
-// iOS AppDelegate.swift
 runtimeCoordinator = AppRuntimeCoordinator(
     presenter: controller,
     application: application,
     options: RuntimeCoordinatorOptions(monitorLocation: false)
 )
 ```
+
+## Local testing
+
+See [LOCAL_DEVELOPMENT.md](LOCAL_DEVELOPMENT.md). **Do not commit** local `project()` or `:path` pod wiring to rider/driver `main`.
 
 ## Remove from host
 

@@ -8,16 +8,19 @@ import com.hovr.devicepermissions.R
 
 internal object PermissionAlertDialog {
     fun builder(activity: FragmentActivity): AlertDialog.Builder {
+        // Must wrap the activity, not applicationContext — dialogs need a valid window token.
         val themedContext = ContextThemeWrapper(
-            activity.applicationContext,
+            activity,
             R.style.HovrPermissionDialogContext,
         )
         return AlertDialog.Builder(themedContext, R.style.HovrPermissionAlertDialog)
     }
 
-    fun showWithStyledButtons(dialog: AlertDialog) {
-        dialog.show()
-        applyActionButtonColors(dialog)
+    fun showWithStyledButtons(activity: FragmentActivity, dialog: AlertDialog) {
+        activity.runWhenWindowReady {
+            dialog.show()
+            applyActionButtonColors(dialog)
+        }
     }
 
     private fun applyActionButtonColors(dialog: AlertDialog) {

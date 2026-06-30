@@ -3,5 +3,7 @@ android/local.properties
 android/.gradle/
 .gradle/
 build/
+.build/
+.swiftpm/
 local.properties
 .DS_Store

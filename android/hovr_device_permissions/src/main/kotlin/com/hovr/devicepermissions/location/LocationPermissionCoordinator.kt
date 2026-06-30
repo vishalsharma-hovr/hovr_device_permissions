@@ -17,6 +17,7 @@ import com.hovr.devicepermissions.PermissionStatus
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 import com.hovr.devicepermissions.ui.PermissionRationaleDialog
 import com.hovr.devicepermissions.ui.SettingsIntents
+import com.hovr.devicepermissions.ui.runWhenWindowReady
 
 internal class LocationPermissionCoordinator(
     private val activity: FragmentActivity,
@@ -65,7 +66,7 @@ internal class LocationPermissionCoordinator(
     }
 
     override fun onResume(owner: LifecycleOwner) {
-        ensureAccess()
+        activity.runWhenWindowReady { ensureAccess() }
     }
 
     private fun handleAccessIssue(

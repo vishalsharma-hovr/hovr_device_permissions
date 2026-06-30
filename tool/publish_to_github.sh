@@ -64,6 +64,8 @@ rsync -a --delete \
   --exclude 'android/.gradle/' \
   --exclude '.gradle/' \
   --exclude 'build/' \
+  --exclude '.build/' \
+  --exclude '.swiftpm/' \
   "$ROOT/" ./
 
 git add -A
@@ -77,3 +79,11 @@ git push -u origin "$RELEASE_BRANCH" --force
 git push origin "$VERSION" --force
 
 echo "Published $VERSION to $REMOTE_URL"
+echo ""
+echo "Next steps:"
+echo "  1. JitPack: https://jitpack.io/#${GITHUB_OWNER}/${REPO_NAME}/${VERSION}"
+echo "  2. Wait for green Android build, then bump host apps:"
+echo "     implementation 'com.github.${GITHUB_OWNER}:${REPO_NAME}:${VERSION}'"
+echo "     pod 'HovrDevicePermissions', :git => '${REMOTE_URL}', :tag => '${VERSION}'"
+echo "  3. Revert any local project(':${REPO_NAME}') / :path pod wiring in rider/driver."
+echo "  4. Update doc/INTEGRATION.md current release table."

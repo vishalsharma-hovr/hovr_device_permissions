@@ -20,6 +20,6 @@ internal class PermissionRationaleDialog(private val activity: FragmentActivity)
             .setPositiveButton("Continue") { _, _ -> onContinue() }
             .setNegativeButton("Not now") { _, _ -> onDecline() }
             .create()
-        PermissionAlertDialog.showWithStyledButtons(dialog)
+        PermissionAlertDialog.showWithStyledButtons(activity, dialog)
     }
 }

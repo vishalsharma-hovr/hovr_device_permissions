@@ -19,7 +19,7 @@ internal class NoConnectionDialog(private val activity: FragmentActivity) {
                 onRetry()
             }
             .create()
-        dialog?.let { PermissionAlertDialog.showWithStyledButtons(it) }
+        dialog?.let { PermissionAlertDialog.showWithStyledButtons(activity, it) }
     }
 
     fun dismiss() {

@@ -62,7 +62,7 @@ internal class BlockingAlertPresenter(private val activity: FragmentActivity) {
                     onStillRequired()
                 }
             }
-        activeDialog?.let { PermissionAlertDialog.showWithStyledButtons(it) }
+        activeDialog?.let { PermissionAlertDialog.showWithStyledButtons(activity, it) }
     }
 
     fun dismissIfPriority(priority: AlertPriority) {
