@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.hovr.devicepermissions.AlertPriority
+import com.hovr.devicepermissions.PermissionActionResolver
 import com.hovr.devicepermissions.PermissionAlertReason
+import com.hovr.devicepermissions.PermissionCoordinatorAction
 import com.hovr.devicepermissions.PermissionStatus
 import com.hovr.devicepermissions.ui.BlockingAlertPresenter
 import com.hovr.devicepermissions.ui.PermissionRationaleDialog
@@ -61,13 +63,14 @@ internal class NotificationPermissionCoordinator(
             }
             return
         }
-        when (runtimeStatus()) {
-            PermissionStatus.GRANTED -> alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
-            PermissionStatus.NOT_DETERMINED,
-            PermissionStatus.DENIED,
-            PermissionStatus.DENIED_PERMANENTLY,
-            -> showAppPermissionRequired()
-            else -> showAppPermissionRequired()
+        when (PermissionActionResolver.resolveRuntimePermissionAction(runtimeStatus())) {
+            PermissionCoordinatorAction.DISMISS ->
+                alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
+            PermissionCoordinatorAction.REQUEST_SYSTEM ->
+                requestRuntimePermission()
+            PermissionCoordinatorAction.SHOW_REQUIRED ->
+                showAppPermissionRequired()
+            PermissionCoordinatorAction.SHOW_DEVICE_LOCATION_DISABLED -> Unit
         }
     }
 
@@ -139,13 +142,14 @@ internal class NotificationPermissionCoordinator(
             ensureAccess()
             return
         }
-        when (runtimeStatus()) {
-            PermissionStatus.GRANTED -> alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
-            PermissionStatus.NOT_DETERMINED,
-            PermissionStatus.DENIED,
-            -> requestRuntimePermission()
-            PermissionStatus.DENIED_PERMANENTLY -> ensureAccess()
-            else -> ensureAccess()
+        when (PermissionActionResolver.resolveRuntimePermissionAction(runtimeStatus())) {
+            PermissionCoordinatorAction.DISMISS ->
+                alertPresenter.dismissIfPriority(AlertPriority.NOTIFICATION)
+            PermissionCoordinatorAction.REQUEST_SYSTEM ->
+                requestRuntimePermission()
+            PermissionCoordinatorAction.SHOW_REQUIRED,
+            PermissionCoordinatorAction.SHOW_DEVICE_LOCATION_DISABLED,
+            -> ensureAccess()
         }
     }
 }

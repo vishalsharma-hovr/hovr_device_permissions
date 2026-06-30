@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="HovrPermissionAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/hovr_permission_dialog_button_text</item>
+        <item name="buttonBarPositiveButtonStyle">@style/HovrPermissionDialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/HovrPermissionDialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/HovrPermissionDialogButton</item>
+    </style>
+
+    <style name="HovrPermissionDialogContext" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/hovr_permission_dialog_button_text</item>
+        <item name="android:textColorPrimary">#DE000000</item>
+    </style>
+
+    <style name="HovrPermissionDialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/hovr_permission_dialog_button_text</item>
+    </style>
+</resources>

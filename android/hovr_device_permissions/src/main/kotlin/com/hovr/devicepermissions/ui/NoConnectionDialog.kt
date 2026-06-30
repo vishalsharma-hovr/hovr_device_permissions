@@ -10,7 +10,7 @@ internal class NoConnectionDialog(private val activity: FragmentActivity) {
         if (dialog?.isShowing == true || activity.isFinishing || activity.isDestroyed) {
             return
         }
-        dialog = AlertDialog.Builder(activity)
+        dialog = PermissionAlertDialog.builder(activity)
             .setTitle("No Internet Connection")
             .setMessage("Please check your internet connection and try again.")
             .setCancelable(false)
@@ -19,7 +19,7 @@ internal class NoConnectionDialog(private val activity: FragmentActivity) {
                 onRetry()
             }
             .create()
-        dialog?.show()
+        dialog?.let { PermissionAlertDialog.showWithStyledButtons(it) }
     }
 
     fun dismiss() {
