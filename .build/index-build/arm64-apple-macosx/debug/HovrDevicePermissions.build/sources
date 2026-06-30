@@ -1,0 +1,14 @@
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/AppRuntimeCoordinator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAccessIssue.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionActionResolver.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAlertReason.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatus.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatusMapper.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/RuntimeCoordinatorOptions.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationAccessEvaluator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationPermissionCoordinator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/network/NetworkConnectivityCoordinator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationAccessEvaluator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationPermissionCoordinator.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/BlockingAlertPresenter.swift
+/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/NoConnectionAlert.swift

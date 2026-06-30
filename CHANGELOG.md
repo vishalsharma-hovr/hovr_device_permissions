@@ -1,3 +1,12 @@
+## 1.2.5
+
+- Add Swift Package Manager (`Package.swift`) for native iOS/Xcode consumers.
+- Document CocoaPods (Flutter) vs SPM integration paths in `doc/INTEGRATION.md`.
+
+## 1.2.4
+
+- Fix CocoaPods reporting `1.1.0`: canonical podspec is now only at repo root with matching version.
+
 ## 1.2.3
 
 - Fix white/invisible Retry and Open Settings button text on Android permission dialogs.

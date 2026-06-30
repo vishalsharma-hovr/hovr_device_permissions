@@ -1,0 +1,3 @@
+module HovrDevicePermissions {
+    header "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/include/HovrDevicePermissions-Swift.h"
+}

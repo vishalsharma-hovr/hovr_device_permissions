@@ -1,6 +1,6 @@
 # HOVR Device Permissions
 
-Pure-native Android library and iOS CocoaPod for location permission, notification permission, and network connectivity monitoring.
+Pure-native Android library and iOS module for location permission, notification permission, and network connectivity monitoring.
 
 ## Features
 
@@ -10,31 +10,37 @@ Pure-native Android library and iOS CocoaPod for location permission, notificati
 - Blocking native alerts when permissions are denied or network is offline
 - No Flutter plugin — host wires `AppRuntimeCoordinator` in `MainActivity` / `AppDelegate`
 
+## Remote dependencies
+
+| Platform | Flutter host | Native host |
+|----------|--------------|-------------|
+| Android | JitPack `com.github.vishalsharma-hovr:hovr_device_permissions:v1.2.5` | same |
+| iOS | CocoaPods Git tag `v1.2.5` | Swift Package Manager `1.2.5` |
+
+See [doc/INTEGRATION.md](doc/INTEGRATION.md) for full wiring.
+
 ## Local development
 
 ### Android
 
 ```gradle
-// android/settings.gradle
 include ':hovr_device_permissions'
 project(':hovr_device_permissions').projectDir =
-    new File(settingsDir, '../native/hovr_device_permissions/android/hovr_device_permissions')
+    new File(settingsDir, '../packages/native/hovr_device_permissions/android/hovr_device_permissions')
 
-// android/app/build.gradle
 implementation project(':hovr_device_permissions')
 ```
 
-### iOS
+### iOS (CocoaPods)
 
 ```ruby
-# ios/Podfile
-pod 'HovrDevicePermissions', :path => '../native/hovr_device_permissions/ios'
+pod 'HovrDevicePermissions', :path => '../packages/native/hovr_device_permissions'
 ```
 
-## Git dependency (after publish)
+### iOS (Swift Package Manager)
 
-```ruby
-pod 'HovrDevicePermissions', :git => 'https://github.com/vishalsharma-hovr/hovr_device_permissions.git', :tag => 'v1.1.0'
+```swift
+.package(path: "../packages/native/hovr_device_permissions")
 ```
 
 ## Documentation

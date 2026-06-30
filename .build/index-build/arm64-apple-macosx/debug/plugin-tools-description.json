@@ -1,0 +1,374 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.HovrDevicePermissions-arm64-apple-macosx-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/sources",
+      "importPath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/AppRuntimeCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAccessIssue.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionActionResolver.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAlertReason.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatus.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatusMapper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/RuntimeCoordinatorOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationAccessEvaluator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationPermissionCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/network/NetworkConnectivityCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationAccessEvaluator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationPermissionCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/BlockingAlertPresenter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/NoConnectionAlert.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "HovrDevicePermissions",
+      "moduleOutputPath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/Modules/HovrDevicePermissions.swiftmodule",
+      "objects" : [
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/AppRuntimeCoordinator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/PermissionAccessIssue.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/PermissionActionResolver.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/PermissionAlertReason.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/PermissionStatus.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/PermissionStatusMapper.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/RuntimeCoordinatorOptions.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/LocationAccessEvaluator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/LocationPermissionCoordinator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/NetworkConnectivityCoordinator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/NotificationAccessEvaluator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/NotificationPermissionCoordinator.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/BlockingAlertPresenter.swift.o",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/NoConnectionAlert.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx10.13",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-Onone",
+        "-enable-testing",
+        "-j11",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/include/HovrDevicePermissions-Swift.h",
+        "-swift-version",
+        "5",
+        "-Xfrontend",
+        "-experimental-lazy-typecheck",
+        "-Xfrontend",
+        "-experimental-skip-all-function-bodies",
+        "-Xfrontend",
+        "-experimental-allow-module-with-compiler-errors",
+        "-Xfrontend",
+        "-empty-abi-descriptor",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "hovr_device_permissions"
+      ],
+      "outputFileMapPath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/Modules/HovrDevicePermissions.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : true,
+      "sources" : [
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/AppRuntimeCoordinator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAccessIssue.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionActionResolver.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAlertReason.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatus.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatusMapper.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/RuntimeCoordinatorOptions.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationAccessEvaluator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationPermissionCoordinator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/network/NetworkConnectivityCoordinator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationAccessEvaluator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationPermissionCoordinator.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/BlockingAlertPresenter.swift",
+        "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/NoConnectionAlert.swift"
+      ],
+      "tempsPath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "HovrDevicePermissions" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "HovrDevicePermissions",
+      "-package-name",
+      "hovr_device_permissions",
+      "-c",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/AppRuntimeCoordinator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAccessIssue.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionActionResolver.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAlertReason.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatus.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatusMapper.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/RuntimeCoordinatorOptions.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationAccessEvaluator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationPermissionCoordinator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/network/NetworkConnectivityCoordinator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationAccessEvaluator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationPermissionCoordinator.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/BlockingAlertPresenter.swift",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/NoConnectionAlert.swift",
+      "-I",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx10.13",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-Onone",
+      "-enable-testing",
+      "-j11",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-emit-objc-header",
+      "-emit-objc-header-path",
+      "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/include/HovrDevicePermissions-Swift.h",
+      "-swift-version",
+      "5",
+      "-Xfrontend",
+      "-experimental-lazy-typecheck",
+      "-Xfrontend",
+      "-experimental-skip-all-function-bodies",
+      "-Xfrontend",
+      "-experimental-allow-module-with-compiler-errors",
+      "-Xfrontend",
+      "-empty-abi-descriptor",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "hovr_device_permissions",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "HovrDevicePermissions" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/AppRuntimeCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAccessIssue.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionActionResolver.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionAlertReason.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatus.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/PermissionStatusMapper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/RuntimeCoordinatorOptions.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationAccessEvaluator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/location/LocationPermissionCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/network/NetworkConnectivityCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationAccessEvaluator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/notification/NotificationPermissionCoordinator.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/BlockingAlertPresenter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/ios/Sources/HovrDevicePermissions/ui/NoConnectionAlert.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/HovrDevicePermissions.build/sources"
+    },
+    "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/vishalsharma/StudioProjects/hovr-rider/hovr/packages/native/hovr_device_permissions/.build/index-build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}
